@@ -89,7 +89,7 @@ public class LogonDBBean {
 		System.out.print(member.getId());
 		try {
 			conn = getConnection();
-			String sql = "insert into EVENTBOARD (id, target, title, content, sdate, edate, files, chk) values(?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "insert into EVENTBOARD (id, target, title, content, sdate, edate, files) values(?, ?, ?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, member.getId());
 			pstmt.setString(2, member.getTarget());
@@ -98,7 +98,6 @@ public class LogonDBBean {
 			pstmt.setString(5, member.getsDate());
 			pstmt.setString(6, member.geteDate());
 			pstmt.setString(7, member.getFiles());
-			pstmt.setString(8, member.getChk());
 
 			pstmt.executeUpdate();
 			
@@ -201,7 +200,7 @@ public class LogonDBBean {
 		
 		try {
 			conn = getConnection();
-			String sql = "select num, target, title, id, content, to_char(sdate, 'YY/MM/DD') as sdate, to_char(edate, 'YY/MM/DD') as edate, files, chk from EVENTBOARD where num = ?";
+			String sql = "select num, target, title, id, content, to_char(sdate, 'YY/MM/DD') as sdate, to_char(edate, 'YY/MM/DD') as edate, files from EVENTBOARD where num = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num);
 			rs = pstmt.executeQuery();
@@ -215,7 +214,6 @@ public class LogonDBBean {
 				logon.setsDate(rs.getString("sdate"));
 				logon.seteDate(rs.getString("edate"));
 				logon.setFiles(rs.getString("files"));
-				logon.setChk(rs.getString("chk"));
 				list.add(logon);
 			}
 			

@@ -58,54 +58,7 @@
 %>
 </table>
 <br>
-<!-- <div class="container">
-	<p>댓글</p>            
-	<table class="table table-bordered" style="text-align:center;">
-	<tr>
-	<td width=50>작성자</td>
-	<td width=300>내용</td>
-	</tr> -->
-<%-- <%
-try{
-	Class.forName("oracle.jdbc.driver.OracleDriver");
-	conn = DriverManager.getConnection(url, user, pass);
-	String sql = "select ID, ADDCOMMENT from COMMENT_TBL where REVIEWNUM = ?";
-	pstmt = conn.prepareStatement(sql);
-	pstmt.setInt(1, num);
-	rs = pstmt.executeQuery();
-	
-	while(rs.next()){
-%>
-	<tr>
-	<td width=50><%= rs.getString("id")%></td>
-	<td width=300><%= rs.getString("addcomment")%></td>
-	</tr>
-<%		} 
-	}
-	catch(Exception e){
-		e.printStackTrace();
-	}
-	finally{
-		if(rs!=null){ try{ rs.close(); } catch(Exception e) {} }//if
-		if(pstmt!=null){ try{ pstmt.close(); } catch(Exception e) {} }//if
-		if(conn!=null){ try{ conn.close(); }catch(Exception e) {} }//if
-	}
-%>
-	</table>
-	</div>
-<br>
-<%
 
-
-%>
- 	<form class="form-inline" action="comment.jsp?num=<%=number %>" method="post">
- 	  <div class="form-group">
- 	      <label for="id">댓글: </label>
- 	      <input type="text" class="form-control" name="comment">
- 	    </div>
- 	<input type="submit" class="btn btn-primary" value="등록">
- 	</form>
- --%>
 <%	
 String id = "";
 int chk = 0;

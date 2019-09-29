@@ -8,7 +8,7 @@
 </head>
 <body>
 <center>
-content
+<img src="img/bg.jpg" width="850">
 </center>
 </body>
 </html>

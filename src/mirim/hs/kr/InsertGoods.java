@@ -50,7 +50,6 @@ private static final long serialVersionUID = 1L;
 
 					g.setId(multi.getParameter("id"));
 					g.setTitle(multi.getParameter("title"));
-					g.setChk("1");
 					g.setTarget(multi.getParameter("target"));
 					//g.setFiles(multi.getParameter("files"));
 					g.setsDate(multi.getParameter("sDate"));

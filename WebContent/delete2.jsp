@@ -18,7 +18,7 @@
 	request.setCharacterEncoding("utf-8");
 	int num = Integer.parseInt(request.getParameter("num"));
 	LogonDBBean logon = LogonDBBean.getInstance();
-	logon.delete(member);
+	logon.delete2(member);
 	response.sendRedirect("board.jsp"); 
 	
 %>
