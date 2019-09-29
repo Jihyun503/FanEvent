@@ -20,10 +20,13 @@
 <%
 	request.setCharacterEncoding("utf-8");
 	int num = Integer.parseInt(request.getParameter("num"));
+	String getid = "";
+	int getnum = 0;
 	LogonDBBean logon = LogonDBBean.getInstance();
 	ArrayList<LogonDataBean> list = logon.view(num);
 	for(LogonDataBean dto : list){
-	
+		getid = dto.getId();
+		getnum = dto.getNum();
 	%>
 			<div class="container">
 			  <h2>더쿠 이벤트</h2>
@@ -39,7 +42,7 @@
 				<td>작성자 : <%=dto.getId() %></td>
 				</tr>
 				<tr>
-				<td colspan="3" height="500"><%=dto.getContent() %><br>
+				<td colspan="3" height="500">
 				
 <%		if(dto.getFiles()!=null){
 %>
@@ -47,7 +50,7 @@
 <%
 	}
 %>
-				</td>
+				<br><%=dto.getContent() %></td>
 				</tr>
 <%
 		}//if
@@ -55,13 +58,13 @@
 %>
 </table>
 <br>
-<div class="container">
+<!-- <div class="container">
 	<p>댓글</p>            
 	<table class="table table-bordered" style="text-align:center;">
 	<tr>
 	<td width=50>작성자</td>
 	<td width=300>내용</td>
-	</tr>
+	</tr> -->
 <%-- <%
 try{
 	Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -92,9 +95,8 @@ try{
 	</div>
 <br>
 <%
-String id = "";
-if(session.getAttribute("id")!=null){
- 	id = (String)session.getAttribute("id");
+
+
 %>
  	<form class="form-inline" action="comment.jsp?num=<%=number %>" method="post">
  	  <div class="form-group">
@@ -103,17 +105,54 @@ if(session.getAttribute("id")!=null){
  	    </div>
  	<input type="submit" class="btn btn-primary" value="등록">
  	</form>
-
+ --%>
 <%	
+String id = "";
+int chk = 0;
+if(session.getAttribute("id")!=null){
+	
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	
+	try{
+		String url = "jdbc:oracle:thin:@localhost:1521:xe";
+		String user = "EVENT";
+		String pass = "1234";
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		conn = DriverManager.getConnection(url, user, pass);
+		pstmt = conn.prepareStatement("select CASE WHEN sysdate > edate THEN 1 ELSE 2 end from EVENTBOARD where num = ?");
+		pstmt.setInt(1, getnum);
+		rs = pstmt.executeQuery();
+		
+		if(rs.next()){
+			chk = rs.getInt(1);	
+		}
+
+	}
+	catch(Exception e){
+		e.printStackTrace();
+	}
+	finally{
+		if(rs!=null){try{rs.close();} catch(Exception e){} }
+		if(pstmt!=null){ try{ pstmt.close(); } catch(Exception e) {} }//if
+		if(conn!=null){ try{ conn.close(); }catch(Exception e) {} }//if 
+	}
+	if(chk == 2){
+%>
+	<button class="btn btn-primary" onclick="location.href='write2.jsp?num=<%=num%>'">참여하기</button>
+<%
 }
- if (id.equals(writer)){
+ 	id = (String)session.getAttribute("id");
+}
+ if (id.equals(getid)){
 %>
  	 
 	<button class="btn btn-primary" onclick="location.href='modify.jsp?num=<%=num%>'">수정</button>
 	<button class="btn btn-primary" onclick="location.href='delete.jsp?num=<%=num%>'">삭제</button>
 <%
 	}
-%> --%>
+%>
 	<button class="btn btn-primary" onclick="location.href='event.jsp'">목록</button><p><p>
 </center>
 </body>

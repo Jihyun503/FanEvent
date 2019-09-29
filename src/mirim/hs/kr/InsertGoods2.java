@@ -15,15 +15,15 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 */
 
-@WebServlet("/InsertGoods")
+@WebServlet("/InsertGoods2")
 
-public class InsertGoods extends HttpServlet {
+public class InsertGoods2 extends HttpServlet {
 
 private static final long serialVersionUID = 1L;
 /**
 * @see HttpServlet#HttpServlet()
 */
-	public InsertGoods() {
+	public InsertGoods2() {
 		super();
 	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,11 +50,8 @@ private static final long serialVersionUID = 1L;
 
 					g.setId(multi.getParameter("id"));
 					g.setTitle(multi.getParameter("title"));
-					g.setChk("1");
-					g.setTarget(multi.getParameter("target"));
-					//g.setFiles(multi.getParameter("files"));
-					g.setsDate(multi.getParameter("sDate"));
-					g.seteDate(multi.getParameter("eDate"));
+					g.setChk(multi.getParameter("chk"));
+					g.setRnum(Integer.parseInt(multi.getParameter("rnum")));
 					g.setContent(multi.getParameter("content"));
 					
 					System.out.println(multi.getParameter("id")+multi.getParameter("title")+multi.getParameter("chk")+multi.getParameter("target"));
@@ -66,13 +63,13 @@ private static final long serialVersionUID = 1L;
 					LogonDBBean dao = new LogonDBBean();
 
 					try {
-						dao.writeEvent(g);
+						dao.joinEvent(g);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					finally {
-						response.sendRedirect("event.jsp");
+						response.sendRedirect("board.jsp");
 					}
 				}
 

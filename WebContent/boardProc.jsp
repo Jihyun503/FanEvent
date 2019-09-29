@@ -1,6 +1,9 @@
+<%@page import="mirim.hs.kr.LogonDBBean"%>
+<%@page import="mirim.hs.kr.LogonDataBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page language="java" import="java.sql.*" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,46 +18,30 @@
 <body>
 <%
 	request.setCharacterEncoding("utf-8");
-	String choice = request.getParameter("choice");
-	String search = request.getParameter("search");
-	
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-	String name = "";
-	
-	String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	String user = "SCHOOL_MENU";
-	String pass = "1234";
-	 
-	Class.forName("oracle.jdbc.driver.OracleDriver");
-	conn = DriverManager.getConnection(url, user, pass);
-	pstmt=conn.prepareStatement("select num, id, title, count from review");
-	rs=pstmt.executeQuery(); 
 %>
 <center>
 <div class="container">
-  <h2>와글와글</h2>
-  <p>급식에 관한 이야기를 자유롭게 나눠요!</p>            
+  <h2>참여 게시판</h2>
+  <p>이벤트에 참여하는 글이 있는 게시판이에요!</p>
   <table class="table table-hover">
     <thead>
       <tr>
         <th>번호</th>
         <th>제목</th>
         <th>작성자</th>
-        <th>조회수</th>
       </tr>
     </thead>
     <tbody>
 
 <%	
-	while(rs.next()){
+	LogonDBBean logon = LogonDBBean.getInstance();
+	ArrayList<LogonDataBean> list = logon.joinborad(); 
+	for(LogonDataBean dto : list){
 %>
 	<tr>
-	<td><%=rs.getInt("num")%></td>
-	<td><a href="view.jsp?num=<%=rs.getInt("num")%>"><%=rs.getString("title") %></a></td>
-   	<td><%=rs.getString("id") %></td>
-	<td><%=rs.getString("count") %></td>
+	<td><%=dto.getNum()%></td>
+	<td><a href="view2.jsp?num=<%=dto.getNum()%>"><%=dto.getTitle() %></a></td>
+   	<td><%=dto.getId() %></td>
 	</tr>
 <%
 	}
@@ -64,7 +51,7 @@
   </table>
 </div>
 <p>
-<button onclick="location.href='writeProc.jsp'">글쓰기</button>
+<!-- <button onclick="location.href='write.jsp'">글쓰기</button> -->
 </center>
 </body>
 </html>

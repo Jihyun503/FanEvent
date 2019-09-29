@@ -21,17 +21,8 @@
 %>
 <center>
 <div class="container">
-  <h2>더쿠 이벤트</h2>
-  <p>내 아티스트를 위한 자체적인 이벤트를 진행할 수 있어요!</p>  
- <!--  <form action="event.jsp">
-	<select name="choice">
-	<option value="target">아티스트명</option>
-	<option value="title">제목</option>
-	</select>
-	<input type="text" name="search">
-	<input type="submit" value="검색">
-   </form>          
-   <br> -->
+  <h2>마감된 이벤트</h2>
+  <p>더쿠 이벤트 페이지에서 다양한 이벤트에 참여 가능합니다!</p>            
   <table class="table table-hover">
     <thead>
       <tr>
@@ -46,7 +37,7 @@
 
 <%	
 	LogonDBBean logon = LogonDBBean.getInstance();
-	ArrayList<LogonDataBean> list = logon.borad(1); 
+	ArrayList<LogonDataBean> list = logon.borad(2); 
 	for(LogonDataBean dto : list){
 %>
 	<tr>

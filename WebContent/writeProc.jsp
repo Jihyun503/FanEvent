@@ -18,8 +18,7 @@ response.setContentType("text/html; charset=UTF-8");
 <table border="1" style="text-align:center;">
 <tr>
 <td width="100">제목</td>
-<td width="600"><input type="text" name="title" size="85"><br>비밀글 : 
-<select name="chk"><option value="1">안함</option><option value="2">함</option></select></td> 
+<td width="600"><input type="text" name="title" size="85"></td> 
 </tr>
 <tr>
 <td width="100">아티스트(작품)명</td>

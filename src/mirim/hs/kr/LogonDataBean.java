@@ -14,7 +14,14 @@ public class LogonDataBean {
 	private String target;
 	private String chk;
 	private int num;
+	private int rnum;
 	
+	public int getRnum() {
+		return rnum;
+	}
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
+	}
 	public int getNum() {
 		return num;
 	}
@@ -87,5 +94,6 @@ public class LogonDataBean {
 	public void setFiles(String files) {
 		this.files = files;
 	}
+	
 		
 }

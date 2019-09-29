@@ -37,7 +37,10 @@
       <a class="nav-link" href="login.jsp">로그인</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="event.jsp">이벤트</a>
+      <a class="nav-link" href="event.jsp">더쿠 이벤트</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="eventEnd.jsp">마감된 이벤트</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="board.jsp">참여게시판</a>
@@ -45,10 +48,9 @@
 <% String id="";
 	if(session.getAttribute("id")!=null){
  	id = (String)session.getAttribute("id");
-	}
-	if(id.equals("admin")){ %>
+%>
     <li class="nav-item">
-      <a class="nav-link" href="admin.jsp">관리자</a>
+      <a class="nav-link" href="mypage.jsp">마이페이지</a>
     </li>
 <%} %>
   </ul>

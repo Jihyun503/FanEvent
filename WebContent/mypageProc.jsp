@@ -18,43 +18,29 @@
 <body>
 <%
 	request.setCharacterEncoding("utf-8");
+	LogonDBBean logon = LogonDBBean.getInstance();
 %>
 <center>
 <div class="container">
-  <h2>더쿠 이벤트</h2>
-  <p>내 아티스트를 위한 자체적인 이벤트를 진행할 수 있어요!</p>  
- <!--  <form action="event.jsp">
-	<select name="choice">
-	<option value="target">아티스트명</option>
-	<option value="title">제목</option>
-	</select>
-	<input type="text" name="search">
-	<input type="submit" value="검색">
-   </form>          
-   <br> -->
+  <h2>내가 작성한 이벤트</h2>
   <table class="table table-hover">
     <thead>
       <tr>
         <th>번호</th>
         <th>아티스트(작품)</th>
         <th>제목</th>
-        <th>작성자</th>
-        <th>마감일</th>
       </tr>
     </thead>
     <tbody>
 
 <%	
-	LogonDBBean logon = LogonDBBean.getInstance();
-	ArrayList<LogonDataBean> list = logon.borad(1); 
+	ArrayList<LogonDataBean> list = logon.showBoard((String)session.getAttribute("id")); 
 	for(LogonDataBean dto : list){
 %>
 	<tr>
 	<td><%=dto.getNum()%></td>
-	<td><%=dto.getTarget()%></td>
-	<td><a href="view.jsp?num=<%=dto.getNum()%>"><%=dto.getTitle() %></a></td>
-   	<td><%=dto.getId() %></td>
-	<td><%=dto.geteDate() %></td>
+	<td><%=dto.getTarget() %></td>
+	<td><a href="view2.jsp?num=<%=dto.getNum()%>"><%=dto.getTitle() %></a></td>
 	</tr>
 <%
 	}
@@ -63,8 +49,36 @@
 	</tbody>
   </table>
 </div>
+<hr>
 <p>
-<button onclick="location.href='write.jsp'">글쓰기</button>
+<div class="container">
+  <h2>내 이벤트 참여글 목록</h2>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>번호</th>
+        <th>아이디</th>
+        <th>제목</th>
+      </tr>
+    </thead>
+    <tbody>
+
+<%	
+	ArrayList<LogonDataBean> list2 = logon.showBoard2((String)session.getAttribute("id")); 
+	for(LogonDataBean dto : list2){
+%>
+	<tr>
+	<td><%=dto.getNum()%></td>
+	<td><%=dto.getId() %></td>
+	<td><a href="view2.jsp?num=<%=dto.getNum()%>"><%=dto.getTitle() %></a></td>
+	</tr>
+<%
+	}
+	
+%>
+	</tbody>
+  </table>
+</div>
 </center>
 </body>
 </html>
