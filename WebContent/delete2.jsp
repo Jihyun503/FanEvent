@@ -19,7 +19,7 @@
 	int num = Integer.parseInt(request.getParameter("num"));
 	LogonDBBean logon = LogonDBBean.getInstance();
 	logon.delete(member);
-	response.sendRedirect("event.jsp"); 
+	response.sendRedirect("board.jsp"); 
 	
 %>
 

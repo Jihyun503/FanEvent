@@ -79,6 +79,34 @@
 	</tbody>
   </table>
 </div>
+<hr>
+<p>
+<div class="container">
+  <h2>내가 참여한 이벤트 목록</h2>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>번호</th>
+        <th>제목</th>
+      </tr>
+    </thead>
+    <tbody>
+
+<%	
+	ArrayList<LogonDataBean> list3 = logon.showBoard3((String)session.getAttribute("id")); 
+	for(LogonDataBean dto : list3){
+%>
+	<tr>
+	<td><%=dto.getNum()%></td>
+	<td><a href="view2.jsp?num=<%=dto.getNum()%>"><%=dto.getTitle() %></a></td>
+	</tr>
+<%
+	}
+	
+%>
+	</tbody>
+  </table>
+</div>
 </center>
 </body>
 </html>

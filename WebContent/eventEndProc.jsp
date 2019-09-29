@@ -55,7 +55,6 @@
   </table>
 </div>
 <p>
-<button onclick="location.href='write.jsp'">글쓰기</button>
 </center>
 </body>
 </html>

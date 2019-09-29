@@ -112,8 +112,8 @@ if(session.getAttribute("id")!=null){
  if (id.equals(getid)){
 %>
  	 
-	<button class="btn btn-primary" onclick="location.href='modify.jsp?num=<%=num%>'">수정</button>
-	<button class="btn btn-primary" onclick="location.href='delete.jsp?num=<%=num%>'">삭제</button>
+	<%-- <button class="btn btn-primary" onclick="location.href='modify.jsp?num=<%=num%>'">수정</button> --%>
+	<button class="btn btn-primary" onclick="location.href='delete2.jsp?num=<%=getnum%>'">삭제</button>
 <%
 	}
 %>

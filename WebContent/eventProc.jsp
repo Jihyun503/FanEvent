@@ -23,15 +23,15 @@
 <div class="container">
   <h2>더쿠 이벤트</h2>
   <p>내 아티스트를 위한 자체적인 이벤트를 진행할 수 있어요!</p>  
- <!--  <form action="event.jsp">
+ <form action="event.jsp">
 	<select name="choice">
-	<option value="target">아티스트명</option>
+	<option value="target">아티스트</option>
 	<option value="title">제목</option>
 	</select>
 	<input type="text" name="search">
 	<input type="submit" value="검색">
    </form>          
-   <br> -->
+   <br>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -46,7 +46,21 @@
 
 <%	
 	LogonDBBean logon = LogonDBBean.getInstance();
-	ArrayList<LogonDataBean> list = logon.borad(1); 
+	ArrayList<LogonDataBean> list = null;
+	list = logon.borad(1);
+	String choice = request.getParameter("choice");
+	String search = request.getParameter("search");
+
+	if(choice==null){
+		list = logon.borad(1);
+	}
+	else if(choice.equals("target")){
+		list = logon.borad2(1, search);
+	}
+	else if(choice.equals("title")){
+		list = logon.borad2(2, search);
+	} 
+	
 	for(LogonDataBean dto : list){
 %>
 	<tr>
@@ -58,13 +72,14 @@
 	</tr>
 <%
 	}
+
 	
 %>
 	</tbody>
   </table>
 </div>
 <p>
-<button onclick="location.href='write.jsp'">글쓰기</button>
+<button class="btn btn-primary" onclick="location.href='write.jsp'">글쓰기</button>
 </center>
 </body>
 </html>

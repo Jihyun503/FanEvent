@@ -121,7 +121,7 @@ if(session.getAttribute("id")!=null){
 		String pass = "1234";
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		conn = DriverManager.getConnection(url, user, pass);
-		pstmt = conn.prepareStatement("select CASE WHEN sysdate > edate THEN 1 ELSE 2 end from EVENTBOARD where num = ?");
+		pstmt = conn.prepareStatement("select CASE WHEN sysdate > edate+1 THEN 1 ELSE 2 end from EVENTBOARD where num = ?");
 		pstmt.setInt(1, getnum);
 		rs = pstmt.executeQuery();
 		
@@ -141,15 +141,17 @@ if(session.getAttribute("id")!=null){
 	if(chk == 2){
 %>
 	<button class="btn btn-primary" onclick="location.href='write2.jsp?num=<%=num%>'">참여하기</button>
+	
 <%
+
 }
  	id = (String)session.getAttribute("id");
 }
  if (id.equals(getid)){
 %>
  	 
-	<button class="btn btn-primary" onclick="location.href='modify.jsp?num=<%=num%>'">수정</button>
-	<button class="btn btn-primary" onclick="location.href='delete.jsp?num=<%=num%>'">삭제</button>
+	<%-- <button class="btn btn-primary" onclick="location.href='modify.jsp?num=<%=num%>'">수정</button> --%>
+	<button class="btn btn-primary" onclick="location.href='delete.jsp?num=<%=getnum%>'">삭제</button>
 <%
 	}
 %>

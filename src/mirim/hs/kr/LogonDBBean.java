@@ -121,10 +121,10 @@ public class LogonDBBean {
 		try {
 			conn = getConnection();
 			if(chk == 1) {
-				sql = "select num, target, id, title, to_char(edate, 'YY/MM/DD') as edate from EVENTBOARD where sysdate < edate order by num desc";
+				sql = "select num, target, id, title, to_char(edate, 'YY/MM/DD') as edate from EVENTBOARD where sysdate < edate+1 order by num desc";
 			}
 			else if(chk == 2) {
-				sql = "select num, target, id, title, to_char(edate, 'YY/MM/DD') as edate from EVENTBOARD where sysdate > edate order by num desc";
+				sql = "select num, target, id, title, to_char(edate, 'YY/MM/DD') as edate from EVENTBOARD where sysdate > edate+1 order by num desc";
 			}
 			pstmt = conn.prepareStatement(sql);
 			//pstmt.setInt(1, num);
@@ -136,6 +136,48 @@ public class LogonDBBean {
 					logon.setTitle(rs.getString("title"));
 					logon.setId(rs.getString("id"));
 					logon.seteDate(rs.getString("edate"));
+				   	list.add(logon);
+					
+				}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			if(rs!=null){ try{ rs.close(); } catch(Exception e) {} }//if
+			if(pstmt!=null){ try{ pstmt.close(); } catch(Exception e) {} }//if
+			if(conn!=null){ try{ conn.close(); }catch(Exception e) {} }//if
+		}
+		return list;
+		
+	}
+	
+	public ArrayList<LogonDataBean> borad2(int chk, String choice) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql="";
+		ArrayList<LogonDataBean> list = new ArrayList<LogonDataBean>();
+		System.out.print(chk+"dd"+choice);
+		
+		try {
+			conn = getConnection();
+			if(chk == 1) {
+				sql = "select num, target, id, title, to_char(edate, 'YY/MM/DD') as edate from EVENTBOARD where sysdate < edate+1 and target like '%"+choice+"%' order by num desc";
+			}
+			else if(chk == 2) {
+				sql = "select num, target, id, title, to_char(edate, 'YY/MM/DD') as edate from EVENTBOARD where sysdate < edate+1 and title like '%"+choice+"%' order by num desc";
+			}
+			pstmt = conn.prepareStatement(sql);
+			//pstmt.setString(1, choice);
+			rs = pstmt.executeQuery();
+			while(rs.next()){
+					LogonDataBean logon = new LogonDataBean();
+					logon.setNum(rs.getInt("num"));
+					logon.setTarget(rs.getString("target"));
+					logon.setTitle(rs.getString("title"));
+					logon.setId(rs.getString("id"));
+					logon.seteDate(rs.getString("edate"));
+					System.out.print(rs.getInt("num")+rs.getString("target")+rs.getString("title"));
 				   	list.add(logon);
 					
 				}
@@ -372,6 +414,108 @@ public class LogonDBBean {
 		}
 		return list;
 		
+	}
+	
+	public ArrayList<LogonDataBean> showBoard3(String id) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql="";
+		ArrayList<LogonDataBean> list = new ArrayList<LogonDataBean>();
+		
+		try {
+			conn = getConnection();
+			sql = "select num, title from JOINEVENT where id = ? order by num desc";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			while(rs.next()){
+					LogonDataBean logon = new LogonDataBean();
+					logon.setNum(rs.getInt("num"));
+					logon.setTitle(rs.getString("title"));
+				   	list.add(logon);
+					
+				}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			if(rs!=null){ try{ rs.close(); } catch(Exception e) {} }//if
+			if(pstmt!=null){ try{ pstmt.close(); } catch(Exception e) {} }//if
+			if(conn!=null){ try{ conn.close(); }catch(Exception e) {} }//if
+		}
+		return list;
+		
+	}
+	
+	public ArrayList<LogonDataBean> result(int num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<LogonDataBean> list = new ArrayList<LogonDataBean>();
+		
+		try {
+			conn = getConnection();
+			String sql = "select distinct id from (select distinct id from joinevent where rnum = ? order by dbms_random.value) where rownum <=1;";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				LogonDataBean logon = new LogonDataBean();
+				logon.setId(rs.getString("id"));
+				list.add(logon);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			if(rs!=null){ try{ rs.close(); } catch(Exception e) {} }//if
+			if(pstmt!=null){ try{ pstmt.close(); } catch(Exception e) {} }//if
+			if(conn!=null){ try{ conn.close(); }catch(Exception e) {} }//if
+		}
+		return list;
+	}
+	
+	public void delete(LogonDataBean member) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		//System.out.print(num);
+		try {
+			conn = getConnection();
+			String sql = "delete from EVENTBOARD where num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, member.getNum());
+
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			if(pstmt!=null){ try{ pstmt.close(); } catch(Exception e) {} }//if
+			if(conn!=null){ try{ conn.close(); }catch(Exception e) {} }//if
+		}
+	
+	}
+	
+	public void delete2(LogonDataBean member) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		//System.out.print(num);
+		try {
+			conn = getConnection();
+			String sql = "delete from JOINEVENT where num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, member.getNum());
+
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			if(pstmt!=null){ try{ pstmt.close(); } catch(Exception e) {} }//if
+			if(conn!=null){ try{ conn.close(); }catch(Exception e) {} }//if
+		}
+	
 	}
 
 }
